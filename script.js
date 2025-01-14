@@ -1,9 +1,13 @@
 // dom
 
-const cardElm = document.getElementById("cards-containers")
-const overlayElm = document.getElementById("cover-img-container")
+const cardElm = document.getElementById("cards-containers");
+const overlayElm = document.getElementById("cover-img-container");
+const cardImgElm = document.getElementById("img-card");
+const OverlayImgElm = document.getElementById("over-img");
+const closeBtnElm = document.getElementById("btn-close");
+
 axios.get("https://jsonplaceholder.typicode.com/photos?_limit=6").then(function(response) {
-    response.data.array.forEach((element, index) => {
+    response.data.forEach((element, index) => {
         const titleResult = element.title;
         const urlResult = element.url;
         const overId = `overlayElm-${index}`;
@@ -16,18 +20,27 @@ axios.get("https://jsonplaceholder.typicode.com/photos?_limit=6").then(function(
                 </div>
                 <div class="my-img-container">
                     <a href="#${overId}">
-                        <img class="ms-img-blog" src="${urlResult}" alt="photo">
+                        <img class="img-card" src="${urlResult}" alt="photo">
                     </a>
                 </div>
                 <div class="card-body">
                     <p class="card-text">${titleResult}</p>
                 </div>
             </div>
-        </div>`
-        
+        </div>`    
     });
-})
-
-    .catch(function(error) {
-        console.log(errore)
+    images.forEach((img) => {
+        img.addEventListener("click", function (event) {
+            event.preventDefault();
+            OverlayImgElm.src = img.getAttribute("data-url");
+            overlayElm.classList.remove("hidden");
+        })
     })
+})
+    .catch(function(error) {
+        console.log("errore")
+    });
+
+closeBtnElm.addEventListener("click", function() {
+    overlayElm.classList.add("hidden");
+});
